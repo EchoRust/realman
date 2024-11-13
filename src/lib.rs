@@ -18,14 +18,7 @@ pub mod traits;
 mod types;
 pub use types::*;
 
-// 运动指令集
-mod motion;
-
-// modbus指令集
-mod modbus;
-
-// IO指令集
-mod io;
+mod robot;
 
 // 睿尔曼
 mod realman;

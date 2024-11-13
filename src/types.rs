@@ -1,5 +1,11 @@
+use std::fmt::Display;
+
 use serde_repr::{Deserialize_repr, Serialize_repr};
 
+/// 关节角度
+///
+/// 第一关节 -172度到172度。-172000 ～ 172000
+/// 第二关节 -90度到90度。-90000 ～ 90000
 #[derive(Debug, Clone, Copy)]
 pub enum ArmType {
     Gen72([i32; 7]),
@@ -146,5 +152,47 @@ impl BaudrateType {
             BaudrateType::Baud115200 => 115200,
             BaudrateType::BaudOther(n) => n,
         }
+    }
+}
+
+// 位置步进类型
+pub enum StepType {
+    XStep,
+    YStep,
+    ZStep,
+}
+
+impl Display for StepType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::XStep => "x_step",
+                Self::YStep => "y_step",
+                Self::ZStep => "z_step",
+            }
+        )
+    }
+}
+
+// 姿态步进类型
+pub enum RStepType {
+    RXStep,
+    RYStep,
+    RZStep,
+}
+
+impl Display for RStepType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::RXStep => "rx_step",
+                Self::RYStep => "ry_step",
+                Self::RZStep => "rz_step",
+            }
+        )
     }
 }

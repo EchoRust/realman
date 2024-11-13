@@ -2,7 +2,9 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::{ArmType, Result, TrajectoryConnect};
+use crate::{ArmType, RStepType, Result, StepType, TrajectoryConnect};
+
+use super::ReceiveStateResponse;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MotionData {
@@ -24,4 +26,26 @@ pub trait MotionTrait {
         r: u8,
         trajectory_connect: TrajectoryConnect,
     ) -> Result<MotionData>;
+
+    /// 关节步进
+    /// 控制机械臂某个关节的步进运动。
+    fn set_joint_step(&mut self, joint_step: &[i32; 2], v: u8) -> Result<ReceiveStateResponse>;
+
+    /// 位置步进
+    /// 控制机械臂沿 x、y、z 轴方向直线步进运动。
+    fn set_pos_step(
+        &mut self,
+        step_type: StepType,
+        step: isize,
+        v: u8,
+    ) -> Result<ReceiveStateResponse>;
+
+    /// 姿态步进
+    /// 控制机械臂沿 x、y、z 轴方向旋转步进运动。
+    fn set_ort_step(
+        &mut self,
+        step_type: RStepType,
+        step: isize,
+        v: u8,
+    ) -> Result<ReceiveStateResponse>;
 }
