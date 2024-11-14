@@ -1,3 +1,6 @@
+//! 机械臂传输
+//!
+
 use std::{
     net::TcpStream,
     ops::{Deref, DerefMut},
@@ -8,8 +11,10 @@ pub struct Transport(TcpStream);
 
 impl Transport {
     /// 新建一个传输
-    pub fn new(socket: TcpStream) -> Self {
-        Self(socket)
+    ///
+    /// * `socket` TcpStream
+    pub fn new(socket: TcpStream) -> Transport {
+        Transport(socket)
     }
 }
 

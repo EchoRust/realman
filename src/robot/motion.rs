@@ -6,7 +6,10 @@ use log::info;
 use serde::Serialize;
 
 use crate::{
-    traits::{MotionData, MotionTrait, ReceiveStateResponse},
+    traits::{
+        ArmContinueResponse, ArmPauseResponse, ArmSlowStopResponse, ArmStopResponse, MotionData,
+        MotionTrait, ReceiveStateResponse,
+    },
     ArmType, Result, StepType, TrajectoryConnect, Transport,
 };
 
@@ -92,7 +95,10 @@ impl MotionTrait for Transport {
         if cmd_resp.receive_state {
             // 等待机械臂达到终点
             if let Ok(n) = self.read(&mut buf) {
-                info!("movej result: {}", String::from_utf8_lossy(&buf[0..n]));
+                info!(
+                    "set_pos_step result: {}",
+                    String::from_utf8_lossy(&buf[0..n])
+                );
             }
         }
 
@@ -129,7 +135,10 @@ impl MotionTrait for Transport {
         if cmd_resp.receive_state {
             // 等待机械臂达到终点
             if let Ok(n) = self.read(&mut buf) {
-                info!("movej result: {}", String::from_utf8_lossy(&buf[0..n]));
+                info!(
+                    "set_joint_step result: {}",
+                    String::from_utf8_lossy(&buf[0..n])
+                );
             }
         }
 
@@ -155,7 +164,7 @@ impl MotionTrait for Transport {
         }
 
         let cmd = Command {
-            command: "set_pos_step",
+            command: "set_ort_step",
             step_type: step_type.to_string(),
             v: if v > 100 { 100 } else { v },
             step,
@@ -173,9 +182,114 @@ impl MotionTrait for Transport {
         if cmd_resp.receive_state {
             // 等待机械臂达到终点
             if let Ok(n) = self.read(&mut buf) {
-                info!("movej result: {}", String::from_utf8_lossy(&buf[0..n]));
+                info!(
+                    "set_ort_step result: {}",
+                    String::from_utf8_lossy(&buf[0..n])
+                );
             }
         }
+
+        Ok(cmd_resp)
+    }
+
+    /// 轨迹急停
+    fn set_arm_stop(&mut self) -> Result<ArmStopResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+        }
+
+        let cmd = Command {
+            command: "set_arm_stop",
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmStopResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 轨迹缓停
+    /// 在当前正在运行的轨迹上停止。
+    fn set_arm_slow_stop(&mut self) -> Result<ArmSlowStopResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+        }
+
+        let cmd = Command {
+            command: "set_arm_slow_stop",
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmSlowStopResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 轨迹暂停
+    /// 停在轨迹上，轨迹可恢复。
+    fn set_arm_pause(&mut self) -> Result<ArmPauseResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+        }
+
+        let cmd = Command {
+            command: "set_arm_pause",
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmPauseResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 轨迹暂停后恢复
+    fn set_arm_continue(&mut self) -> Result<ArmContinueResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+        }
+
+        let cmd = Command {
+            command: "set_arm_continue",
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmContinueResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
 
         Ok(cmd_resp)
     }

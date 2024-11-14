@@ -1,3 +1,8 @@
+//! 睿尔曼机械臂
+//!
+//! 用于初始化、连接和控制机械臂
+//!
+
 use std::{
     net::{SocketAddr, TcpStream},
     str::FromStr,
@@ -14,8 +19,11 @@ pub struct Realman {
 
 impl Realman {
     /// 创建新的机械臂实例
-    pub fn new(ip: impl Into<String>, port: u16) -> Self {
-        Self {
+    ///
+    /// * `ip` 机械臂的IP地址
+    /// * `port` 机械臂端口号
+    pub fn new(ip: impl Into<String>, port: u16) -> Realman {
+        Realman {
             ip: ip.into(),
             port,
         }

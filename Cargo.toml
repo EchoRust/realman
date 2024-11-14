@@ -1,6 +1,6 @@
 [package]
 name = "realman"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 authors = ["Leon <echo_ai@foxmail.com>"]
 description = "realman robot Rust sdk"

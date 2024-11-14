@@ -34,3 +34,28 @@ pub struct ReceiveStateResponse {
     pub command: String,
     pub receive_state: bool,
 }
+
+/// 轨迹急停返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmStopResponse {
+    pub command: String,
+    pub arm_stop: bool,
+}
+/// 轨迹缓停返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmSlowStopResponse {
+    pub command: String,
+    pub arm_slow_stop: bool,
+}
+/// 轨迹暂停返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmPauseResponse {
+    pub command: String,
+    pub arm_pause: bool,
+}
+/// 轨迹暂停后恢复返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmContinueResponse {
+    pub command: String,
+    pub arm_continue: bool,
+}

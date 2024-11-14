@@ -31,7 +31,7 @@ impl ModbusTrait for Transport {
         let cmd = Command {
             command: "set_modbus_mode",
             port: port.into(),
-            baudrate: baudrate.speed(),
+            baudrate: baudrate.into(),
             timeout: if timeout == 0 { 1 } else { timeout },
         };
 
