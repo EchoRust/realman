@@ -22,7 +22,7 @@
 
 <details>
 <summary>
-点击显示 `Cargo.toml`
+点击显示 Cargo.toml
 <a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8f947f954da465399326296f113be8a7" target="_blank">在playground中运行当前代码</a>
 </summary>
 
@@ -75,7 +75,6 @@ fn main() {
 
 ## License
 
-<sup>
 The MIT License (MIT)
 
 Copyright (c) 2024-present, Leon 李扬
@@ -97,4 +96,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-</sup>
