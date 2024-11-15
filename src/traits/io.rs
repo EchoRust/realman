@@ -15,15 +15,21 @@ use serde::{Deserialize, Serialize};
 
 use crate::{Result, VoltageType};
 
+/// IO配置结果
 #[derive(Debug, Serialize, Deserialize)]
 pub struct IOData {
+    /// IO命令名称
     command: String,
+    /// 配置结果
     state: bool,
 }
 
+/// 查询工具端电源输出
 #[derive(Debug, Serialize, Deserialize)]
 pub struct IOVoltageQueryData {
+    /// 输出电源命令名称
     state: String,
+    /// 输出电源类型
     voltage_type: VoltageType,
 }
 

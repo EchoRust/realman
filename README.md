@@ -1,10 +1,13 @@
 # 睿尔曼机械臂 Rust SDK
 
 [![Crates.io][crates-badge]][crates-url]
+[![Docs.rs][doc-badge]][doc-url]
 [![MIT licensed][mit-badge]][mit-url]
 
-[crates-badge]: https://img.shields.io/badge/crates-0.0.2-yellow
+[crates-badge]: https://img.shields.io/badge/crates-0.2.0-yellow
 [crates-url]: https://crates.io/crates/realman
+[doc-badge]: https://img.shields.io/badge/doc-latest-blue
+[doc-url]: https://docs.rs/realman
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [mit-url]: https://opensource.org/licenses/MIT
 
@@ -20,79 +23,34 @@
 
 ## 使用方法
 
-<details>
-<summary>
-点击显示 Cargo.toml
-<a href="https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=8f947f954da465399326296f113be8a7" target="_blank">在playground中运行当前代码</a>
-</summary>
-
 ```toml
 [dependencies]
-realman = "0.0.2"
+realman = "0.2.0"
 ```
-</details>
+
+## 三次点头示例
 
 ```rust
-use realman::{
-    traits::{ArmStateTrait, IOTrait, ModbusTrait, MotionTrait},
-    ArmType, Realman, TrajectoryConnect,
-};
+use realman::{traits::MotionTrait, ArmType, Realman, TrajectoryConnect};
 
 fn main() {
-    // get default realman
     let realman = Realman::default();
 
-    match realman.connect() {
-        Ok(mut socket) => {
-            // set end voltage
-            socket.set_tool_voltage(realman::VoltageType::Three).ok();
+    if let Ok(mut socket) = realman.connect() {
+        socket.movej(ArmType::Gen72([0; 7]), 50, 0, TrajectoryConnect::Now).ok();
 
-            // set modbus mode
-            socket
-                .set_modbus_mode(
-                    realman::PortType::EndRS485RTUMain,
-                    realman::BaudrateType::Baud115200,
-                    1,
-                )
-                .ok();
-
-            let res = socket.get_current_arm_state().unwrap();
-            println!("{res:#?}");
-
-            socket
-                .movej(
-                    ArmType::Gen72([0, -60000, 0, -60000, 0, 0, 0]),
-                    50,
-                    0,
-                    TrajectoryConnect::Now,
-                )
-                .ok();
+        for _ in 0..3 {
+            socket.set_joint_step(&[6, -15000], 50).ok();
+            socket.set_joint_step(&[6, 15000], 50).ok();
         }
-        Err(err) => panic!("{err:?}"),
     }
 }
 ```
+
+##
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2024-present, Leon 李扬
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+Copyright (c) 2024-present, 李扬(Leon)

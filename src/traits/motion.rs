@@ -13,9 +13,12 @@ use super::{
     ReceiveStateResponse,
 };
 
+/// 运动指令接收结果
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MotionData {
+    /// 指令名称
     command: String,
+    /// 接收状态结果
     receive_state: bool,
 }
 

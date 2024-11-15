@@ -1,11 +1,13 @@
 [package]
 name = "realman"
-version = "0.0.2"
+version = "0.2.0"
 edition = "2021"
-authors = ["Leon <echo_ai@foxmail.com>"]
-description = "realman robot Rust sdk"
+authors = ["李扬(Leon) <echo_ai@foxmail.com>"]
+description = "realman robot Rust SDK"
 license = "MIT"
 repository = "https://github.com/EchoRust/realman"
+documentation = "https://docs.rs/realman"
+homepage = "https://github.com/EchoRust/realman"
 keywords = ["realman", "robot"]
 
 [dependencies]
