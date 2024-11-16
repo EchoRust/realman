@@ -15,12 +15,6 @@
 
 `SDK` 是根据官网 `json` 协议开发。[官网链接](https://develop.realman-robotics.com/robot/json/getStartedJson.html)
 
-## 作者介绍
-
-* 作者: 李扬(Leon)
-* 个人网站: 技安Rust笔记 - [https://echoli.cn](https://echoli.cn)
-* Github: [https://github.com/EchoRust/realman](https://github.com/EchoRust/realman)
-
 ## 使用方法
 
 ```toml
@@ -47,7 +41,10 @@ fn main() {
 }
 ```
 
-##
+## 作者介绍
+
+* 作者: 李扬(Leon)
+* 个人网站: [https://echoli.cn](https://echoli.cn)
 
 ## License
 
