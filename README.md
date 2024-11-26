@@ -156,7 +156,7 @@ fn main() {
     * [ ] 查询关节温度 `get_current_joint_temperature`
     * [ ] 查询关节当前电流 `get_current_joint_current`
     * [ ] 查询关节当前电压 `get_current_joi`nt_voltage`
-    * [ ] 查询机械臂关节角度 `get_joint_degree`
+    * [x] 查询机械臂关节角度 `get_joint_degree`
     * [ ] 查询机械臂所有状态信息 `get_arm_all_state`
     * [ ] 查询规划计数 `get_arm_plan_num`
   * [ ] 初始姿态
