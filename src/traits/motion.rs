@@ -6,10 +6,14 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::{ArmType, RStepType, Result, StepType, TrajectoryConnect};
+use crate::{
+    ArmType, DirectionType, RStepType, Result, StepType, TeachRotateType, TeachType,
+    TrajectoryConnect,
+};
 
 use super::{
-    ArmContinueResponse, ArmPauseResponse, ArmSlowStopResponse, ArmStopResponse,
+    ArmContinueResponse, ArmJointTeachResponse, ArmOrtTeachResponse, ArmPauseResponse,
+    ArmPosTeachResponse, ArmSlowStopResponse, ArmStopResponse, ArmStopTeachResponse,
     ReceiveStateResponse,
 };
 
@@ -83,4 +87,31 @@ pub trait MotionTrait {
 
     /// 轨迹暂停后恢复
     fn set_arm_continue(&mut self) -> Result<ArmContinueResponse>;
+
+    /// 关节示教
+    fn set_joint_teach(
+        &mut self,
+        teach_joint: u8,
+        direction: DirectionType,
+        v: u8,
+    ) -> Result<ArmJointTeachResponse>;
+
+    /// 位置示教
+    fn set_pos_teach(
+        &mut self,
+        teach_type: TeachType,
+        direction: DirectionType,
+        v: u8,
+    ) -> Result<ArmPosTeachResponse>;
+
+    /// 关节示教
+    fn set_ort_teach(
+        &mut self,
+        teach_rotate_joint: TeachRotateType,
+        direction: DirectionType,
+        v: u8,
+    ) -> Result<ArmOrtTeachResponse>;
+
+    /// 示教停止
+    fn set_stop_teach(&mut self) -> Result<ArmStopTeachResponse>;
 }

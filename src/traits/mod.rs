@@ -67,3 +67,28 @@ pub struct ArmContinueResponse {
     pub command: String,
     pub arm_continue: bool,
 }
+
+/// 关节示教返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmJointTeachResponse {
+    pub command: String,
+    pub joint_teach: bool,
+}
+/// 位置示教返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmPosTeachResponse {
+    pub command: String,
+    pub pos_teach: bool,
+}
+/// 姿态示教返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmOrtTeachResponse {
+    pub command: String,
+    pub ort_teach: bool,
+}
+/// 示教停止返回结果
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArmStopTeachResponse {
+    pub command: String,
+    pub stop_teach: bool,
+}

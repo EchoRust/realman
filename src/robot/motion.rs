@@ -7,10 +7,12 @@ use serde::Serialize;
 
 use crate::{
     traits::{
-        ArmContinueResponse, ArmPauseResponse, ArmSlowStopResponse, ArmStopResponse, MotionData,
-        MotionTrait, ReceiveStateResponse,
+        ArmContinueResponse, ArmJointTeachResponse, ArmOrtTeachResponse, ArmPauseResponse,
+        ArmPosTeachResponse, ArmSlowStopResponse, ArmStopResponse, ArmStopTeachResponse,
+        MotionData, MotionTrait, ReceiveStateResponse,
     },
-    ArmType, Result, StepType, TrajectoryConnect, Transport,
+    ArmType, DirectionType, Result, StepType, TeachRotateType, TeachType, TrajectoryConnect,
+    Transport,
 };
 
 impl MotionTrait for Transport {
@@ -290,6 +292,139 @@ impl MotionTrait for Transport {
 
         let cmd_resp =
             serde_json::from_str::<ArmContinueResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 关节示教
+    fn set_joint_teach(
+        &mut self,
+        teach_joint: u8,
+        direction: DirectionType,
+        v: u8,
+    ) -> Result<ArmJointTeachResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+            teach_joint: u8,
+            direction: String,
+            v: u8,
+        }
+
+        let cmd = Command {
+            command: "set_joint_teach",
+            teach_joint,
+            direction: direction.to_string(),
+            v: if v > 100 { 100 } else { v },
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmJointTeachResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 位置示教
+    fn set_pos_teach(
+        &mut self,
+        teach_type: TeachType,
+        direction: DirectionType,
+        v: u8,
+    ) -> Result<ArmPosTeachResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+            teach_type: String,
+            direction: String,
+            v: u8,
+        }
+
+        let cmd = Command {
+            command: "set_pos_teach",
+            teach_type: teach_type.to_string(),
+            direction: direction.to_string(),
+            v: if v > 100 { 100 } else { v },
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmPosTeachResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 姿态示教
+    fn set_ort_teach(
+        &mut self,
+        teach_rotate_joint: TeachRotateType,
+        direction: DirectionType,
+        v: u8,
+    ) -> Result<ArmOrtTeachResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+            teach_type: String,
+            direction: String,
+            v: u8,
+        }
+
+        let cmd = Command {
+            command: "set_ort_teach",
+            teach_type: teach_rotate_joint.to_string(),
+            direction: direction.to_string(),
+            v: if v > 100 { 100 } else { v },
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmOrtTeachResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
+
+        Ok(cmd_resp)
+    }
+
+    /// 示教停止
+    fn set_stop_teach(&mut self) -> Result<ArmStopTeachResponse> {
+        let mut buf = [0; 256];
+
+        #[derive(Serialize)]
+        struct Command {
+            command: &'static str,
+        }
+
+        let cmd = Command {
+            command: "set_stop_teach",
+        };
+
+        let data = serde_json::to_vec(&cmd)?;
+
+        self.write_all(&data)?;
+
+        let n = self.read(&mut buf)?;
+
+        let cmd_resp =
+            serde_json::from_str::<ArmStopTeachResponse>(&String::from_utf8_lossy(&buf[0..n]))?;
 
         Ok(cmd_resp)
     }

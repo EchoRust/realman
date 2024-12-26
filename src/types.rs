@@ -178,3 +178,72 @@ impl Display for RStepType {
         )
     }
 }
+
+/// 示教方向
+pub enum DirectionType {
+    /// 正方向
+    Pos,
+    /// 反方向
+    Neg,
+}
+
+impl Display for DirectionType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Pos => "pos",
+                Self::Neg => "neg",
+            }
+        )
+    }
+}
+
+/// 示教坐标轴
+pub enum TeachType {
+    /// X轴
+    X,
+    /// Y轴
+    Y,
+    /// Z轴
+    Z,
+}
+
+impl Display for TeachType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::X => "x",
+                Self::Y => "y",
+                Self::Z => "z",
+            }
+        )
+    }
+}
+
+/// 示教旋转所绕坐标轴
+pub enum TeachRotateType {
+    /// rx轴
+    Rx,
+    /// ry轴
+    Ry,
+    /// rz轴
+    Rz,
+}
+
+impl Display for TeachRotateType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::Rx => "rx",
+                Self::Ry => "ry",
+                Self::Rz => "rz",
+            }
+        )
+    }
+}

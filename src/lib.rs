@@ -4,7 +4,7 @@
 //! [![Docs.rs][doc-badge]][doc-url]
 //! [![MIT licensed][mit-badge]][mit-url]
 //!
-//! [crates-badge]: https://img.shields.io/badge/crates-0.2.0-yellow
+//! [crates-badge]: https://img.shields.io/badge/crates-0.2.1-yellow
 //! [crates-url]: https://crates.io/crates/realman
 //! [doc-badge]: https://img.shields.io/badge/doc-latest-blue
 //! [doc-url]: https://docs.rs/realman
@@ -19,7 +19,7 @@
 //!
 //! ```toml
 //! [dependencies]
-//! realman = "0.2.0"
+//! realman = "0.2.1"
 //! ```
 //!
 //! ## 三次点头示例
@@ -27,7 +27,11 @@
 //! ```rust
 //! use realman::{traits::MotionTrait, ArmType, Realman, TrajectoryConnect};
 //!
+//! // get default client
 //! let realman = Realman::default();
+//!
+//! // you can set it manually
+//! // let realman = Realman::new("192.168.1.18", 8080);
 //!
 //! if let Ok(mut socket) = realman.connect() {
 //!     socket.movej(ArmType::Gen72([0; 7]), 50, 0, TrajectoryConnect::Now).ok();
